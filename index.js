@@ -33,15 +33,14 @@ tipSelectCustom.addEventListener('input', function(){
 
 peopleInput.addEventListener('input', function(){
   billInputValue = +billInput.value
-
   peopleInputValue = +peopleInput.value
   tipValue = (billInputValue * (tipSelectValue/100)) / peopleInputValue
   billValue = (billInputValue + tipValue) / peopleInputValue
 
   console.log(billInputValue, tipSelectValue, peopleInputValue)
 
-  tipTotal.innerHTML = (`$ ${tipValue}`)
-  billTotal.innerHTML = (`$ ${billValue}`)
+  tipTotal.innerHTML = (`$ ${Math.ceil(tipValue)}`)
+  billTotal.innerHTML = (`$ ${Math.ceil(billValue)}`)
 })
 
 resetBtn.addEventListener('click', function(e){
