@@ -2,6 +2,7 @@ const billInput = document.getElementById('bill');
 const tipSelect = document.querySelectorAll('.tip');
 const tipSelectCustom = document.getElementById('tip-input');
 const peopleInput = document.getElementById('people');
+const inputAlert = document.getElementById('input-alert')
 const tipTotal = document.querySelector('#tip-total');
 const billTotal = document.querySelector('#bill-total');
 const resetBtn = document.getElementById('reset-btn')
@@ -9,49 +10,66 @@ const resetBtn = document.getElementById('reset-btn')
 let billInputValue, tipSelectValue, peopleInputValue;
 let tipValue, billValue;
 
-// billInput.addEventListener('input', function(){
-//   billInputValue = +billInput.value
-//   billValue = billInputValue;
-//   console.log(billInputValue)
-// })
-
+// take the value of buttons select
 for(let i=0; i<tipSelect.length; i++){
-  tipSelect[i].addEventListener('click', function(){
-
+  tipSelect[i].addEventListener('click', function(event){
     tipSelectValue = +tipSelect[i].value;
-    tipSelect[i].style.backgroundColor = 'green'
+
+    // remove class from all buttons
+  for(let j=0; j<5; j++){
+    !tipSelect[j].classList.remove('tip-click')
+  }
+    event.target.classList.add('tip-click')
   })
+
 }
+
+
+// take the value of custom input
 tipSelectCustom.addEventListener('input', function(){
   tipSelectValue = +tipSelectCustom.value
 })
 
-
-// tipSelectCustom.addEventListener('input', function(){
-//   console.log(tipSelectCustom.value);
-// })
-
+// calculate all the value and showing the result
 peopleInput.addEventListener('input', function(){
+
+  //show outline
+  inputAlert.className = 'alert';
+
   billInputValue = +billInput.value
   peopleInputValue = +peopleInput.value
-  tipValue = (billInputValue * (tipSelectValue/100)) / peopleInputValue
-  billValue = (billInputValue + tipValue) / peopleInputValue
 
-  console.log(billInputValue, tipSelectValue, peopleInputValue)
+  // Default people divide
+  if(peopleInputValue < 1){
+    peopleInputValue = 1
+  }
 
-  tipTotal.innerHTML = (`$ ${Math.ceil(tipValue)}`)
-  billTotal.innerHTML = (`$ ${Math.ceil(billValue)}`)
+  // result rules
+  tipValue = Math.ceil(billInputValue * (tipSelectValue/100))
+  billValue = Math.ceil((billInputValue + tipValue) / peopleInputValue)
+  
+  // escape the NaN on the inner HTML
+  if (isNaN(billValue) || isNaN(tipValue)){
+    tipTotal.innerHTML = (`$0.00`)
+    billTotal.innerHTML = (`$0.00`)
+  } else{
+    tipTotal.innerHTML = (`$ ${tipValue / 4}`)
+    billTotal.innerHTML = (`$ ${billValue}`)
+  }
+  
 })
 
 resetBtn.addEventListener('click', function(e){
-  billInput.innerText = 'wow'
+  billInput.value = 0;
+  tipSelect.value = 0;
+  tipSelectCustom.value = ''
+  peopleInput.value = 0;
+
+  //result = 0
+  tipTotal.innerHTML = (`$0.00`)
+  billTotal.innerHTML = (`$0.00`)
+  for(let j=0; j<5; j++){
+    !tipSelect[j].classList.remove('tip-click')
+  }
   e.preventDefault()
 })
-
-
-
-
-
-
-
-
