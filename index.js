@@ -45,25 +45,26 @@ peopleInput.addEventListener('input', function(){
   }
 
   // result rules
-  tipValue = Math.ceil(billInputValue * (tipSelectValue/100))
-  billValue = Math.ceil((billInputValue + tipValue) / peopleInputValue)
+  tipValue = billInputValue * (tipSelectValue/100)
+  console.log(tipValue)
+  billValue = (billInputValue + tipValue) / peopleInputValue
   
   // escape the NaN on the inner HTML
   if (isNaN(billValue) || isNaN(tipValue)){
     tipTotal.innerHTML = (`$0.00`)
     billTotal.innerHTML = (`$0.00`)
   } else{
-    tipTotal.innerHTML = (`$ ${tipValue / 4}`)
-    billTotal.innerHTML = (`$ ${billValue}`)
+    tipTotal.innerHTML = (`$ ${Math.ceil(tipValue / peopleInputValue)}`)
+    billTotal.innerHTML = (`$ ${Math.ceil(billValue)}`)
   }
   
 })
 
 resetBtn.addEventListener('click', function(e){
-  billInput.value = 0;
-  tipSelect.value = 0;
+  billInput.value = '';
+  tipSelect.value = '';
   tipSelectCustom.value = ''
-  peopleInput.value = 0;
+  peopleInput.value = '';
 
   //result = 0
   tipTotal.innerHTML = (`$0.00`)
